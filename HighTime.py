@@ -57,6 +57,16 @@ class HighTime:
         return int_to_time(total_seconds)
 
 
+    def __radd__(self, other):
+        """Enable adding HighTime to seconds (as in `1234 + t1`)
+
+            Note:
+                Uses __add__
+
+        """
+        return self.__add__(other)
+
+
     def time_to_int(self):
         """convert h, m, s in decimal to number of seconds:
             a number in sexagecimal base"""
@@ -65,10 +75,19 @@ class HighTime:
         return s
 
 
-    """add seconds to time of self
-    returns: new HighTime object
-    """
     def increment(self, seconds):
+        """add seconds to self
+
+        Note:
+            candidate for deletion
+
+        Args:
+            seconds (int): how many seconds to add
+
+        Returns:
+            A new HighTime instance which is the result of the incrementation
+
+        """
         return int_to_time(self.time_to_int + seconds)
 
 
@@ -87,6 +106,17 @@ class HighTime:
         self.hour += self.minute // 60
         self.minute = self.minute % 60
 
+
+    def is_time_to_get_high(self):
+        return True
+
+
+    def is_time_of_day(self):
+        if self.hour < 0  or  self.minute < 0  or  self.second < 0:
+            return False
+        elif self.hour > 59  or  self.minute > 59  or  self.second > 59:
+            return False
+        return True
 
 
 def int_to_time(s):
@@ -114,14 +144,24 @@ def valid_time(t):
         return False
 
 
-time = HighTime(9, 45)
-print(time, end="")
+t1 = HighTime(9, 45)
 
-print(time + HighTime(0, 16))
+print(t1, end=",\t")
+print(t1 + HighTime(0, 16), end=",\t")
+print(t1 + 17, end=",\t")
+print(12 + t1)
 
-print(time + 17)
+t2 = HighTime(10 ,33)
 
+t3 = HighTime(19, 12, 32)
 
+print(sum([t1, t2, t3]))
+
+print(vars(t1))
+
+print(getattr(t1, "hour"))
+
+# hasattr()
 
 quit()
 
