@@ -3,7 +3,7 @@
 #import copy
 
 
-class Time:
+class HighTime:
     """Represents time of day
 
     Note:
@@ -36,21 +36,21 @@ class Time:
 
 
     def __add__(self, other):
-        """Adds another Time object or number of seconds
+        """Adds another HighTime object or number of seconds
 
         Note:
             uses `assert` to verify the validity of the two added times
 
         Args:
-            other (Time || int): what to add
+            other (HighTime || int): what to add
 
         Returns:
-            A new Time instance which is the result of the addition
+            A new HighTime instance which is the result of the addition
 
         """
         assert valid_time(self) and valid_time(other)
         total_seconds = self.time_to_int()
-        if isinstance(other, Time):
+        if isinstance(other, HighTime):
             total_seconds += other.time_to_int()
         else:
             total_seconds += other
@@ -66,14 +66,14 @@ class Time:
 
 
     """add seconds to time of self
-    returns: new Time object
+    returns: new HighTime object
     """
     def increment(self, seconds):
         return int_to_time(self.time_to_int + seconds)
 
 
-    """is self greater than the passed Time ?
-    other: other Time to compare to self
+    """is self greater than the passed HighTime ?
+    other: other HighTime to compare to self
     """
     def is_after(self, other):
         return (self.time_to_int() > other.time_to_int())
@@ -92,7 +92,7 @@ class Time:
 def int_to_time(s):
     (minutes, seconds) = divmod(s, 60)
     (hours, minutes) = divmod(minutes, 60)
-    t = Time(hours, minutes, seconds)
+    t = HighTime(hours, minutes, seconds)
     return t
 
 
@@ -103,7 +103,7 @@ returns:    True / False"""
 def valid_time(t):
     if isinstance(t, int):      # allow integers to represent seconds
         return True
-    elif isinstance(t, Time):
+    elif isinstance(t, HighTime):
         if t.hour < 0 or t.minute < 0 or t.second < 0:
             return False
         elif t.hour >= 60 or t.minute >= 60 or t.second >= 60:
@@ -114,10 +114,10 @@ def valid_time(t):
         return False
 
 
-time = Time(9, 45)
+time = HighTime(9, 45)
 print(time, end="")
 
-print(time + Time(0, 16))
+print(time + HighTime(0, 16))
 
 print(time + 17)
 
